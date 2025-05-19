@@ -11,7 +11,7 @@ import os
 from dotenv import load_dotenv
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from db_config import main, db_insert_main_data
+from src.db_config import main, db_insert_main_data
 
 load_dotenv()
 test_img_file = os.getenv('test_img_file')
@@ -122,40 +122,49 @@ class Ui_WeaponRecognition(object):
 
         self.retranslateUi(WeaponRecognition)
         QtCore.QMetaObject.connectSlotsByName(WeaponRecognition)
-        
+
         self.submit.clicked.connect(self.clicked)
 
     def retranslateUi(self, WeaponRecognition):
         _translate = QtCore.QCoreApplication.translate
-        WeaponRecognition.setWindowTitle(_translate("WeaponRecognition", "MainWindow"))
+        WeaponRecognition.setWindowTitle(
+            _translate("WeaponRecognition", "MainWindow"))
         self.tButton.setText(_translate("WeaponRecognition", "Terrestre"))
         self.tButton_2.setText(_translate("WeaponRecognition", "Aereo"))
         self.tButton_3.setText(_translate("WeaponRecognition", "Maritimo"))
-        self.label.setText(_translate("WeaponRecognition", "Tipo de transporte"))
-        self.label_2.setText(_translate("WeaponRecognition", "Institucion a cargo"))
+        self.label.setText(_translate(
+            "WeaponRecognition", "Tipo de transporte"))
+        self.label_2.setText(_translate(
+            "WeaponRecognition", "Institucion a cargo"))
         self.submit.setText(_translate("WeaponRecognition", "Procesar"))
-        self.label_3.setText(_translate("WeaponRecognition", "Nombre del Oficial a Cargo del Operativo"))
-        self.label_4.setText(_translate("WeaponRecognition", "Localidad del Operativo"))
-        self.label_5.setText(_translate("WeaponRecognition", "Cedula ID del Oficial a Cargo"))
-        self.label_7.setText(_translate("WeaponRecognition", "Imagen del Operativo"))
+        self.label_3.setText(_translate(
+            "WeaponRecognition", "Nombre del Oficial a Cargo del Operativo"))
+        self.label_4.setText(_translate(
+            "WeaponRecognition", "Localidad del Operativo"))
+        self.label_5.setText(_translate(
+            "WeaponRecognition", "Cedula ID del Oficial a Cargo"))
+        self.label_7.setText(_translate(
+            "WeaponRecognition", "Imagen del Operativo"))
         self.comboBox.setItemText(0, _translate("WeaponRecognition", "DGM"))
         self.comboBox.setItemText(1, _translate("WeaponRecognition", "DGA"))
         self.comboBox.setItemText(2, _translate("WeaponRecognition", "DNCD"))
-        self.comboBox.setItemText(3, _translate("WeaponRecognition", "CESFRONT"))
-        self.comboBox.setItemText(4, _translate("WeaponRecognition", "DICRIM"))    
+        self.comboBox.setItemText(3, _translate(
+            "WeaponRecognition", "CESFRONT"))
+        self.comboBox.setItemText(4, _translate("WeaponRecognition", "DICRIM"))
 
-    def clicked(self):        
+    def clicked(self):
         location = self.location.toPlainText()
         official = self.official.toPlainText()
         transportation = self.transportation()
         institution = self.institution()
-        
+
         db, mycursor, weapon_id = main()
-        
-        db_insert_main_data(db, mycursor, weapon_id, official, location, transportation, institution)
-        
+
+        db_insert_main_data(db, mycursor, weapon_id, official,
+                            location, transportation, institution)
+
         self.label_6.setPixmap(QtGui.QPixmap("object_detection_img.jpg"))
-        
+
     def transportation(self):
         if self.tButton.isChecked():
             return 1
@@ -163,9 +172,9 @@ class Ui_WeaponRecognition(object):
             return 2
         elif self.tButton_3.isChecked():
             return 3
-        
+
     def institution(self):
-        return self.comboBox.currentIndex() + 1 
+        return self.comboBox.currentIndex() + 1
 
 
 if __name__ == "__main__":
